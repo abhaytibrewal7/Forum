@@ -1,4 +1,3 @@
-var thread_list = null;
 function login(){
 	
 	var username = $('#username').val();
@@ -38,37 +37,22 @@ function forum(callback){
 
 function threads(forum_id){
 	
+	var thread_list = null;
 	$.ajax({
 		url:"ControllerPojo",
 		type:"POST",
 		data:"function=threads&forum_id="+forum_id,				
-		success:function(data){																															
-			thread_list = data;
-			var responseData = JSON.parse(data);
-			console.log(responseData);
-			location.href = "view_threads.html";
-			/*$.each(data,function(idx,obj){
-				
-			});*/
-			//if($.trim(data).indexOf('true') >= 0){				
-				//location.href = "view_threads.jsp?forum_id="+forum_id;
-			//}
-			/*function thread_doing(){				
-				$('#topics-body').html("Whaat");
-			};*/
-		}
-	});
-	return false;
-}
-
-function view_thread_page(){
-	
-	$.ajax({
-		url:"view_thread_page",
-		type:"post",
-		data:"thread_list",
 		success:function(data){
-			$("#abc").html(data);
+			if($.trim(data) == 'true'){
+				$.ajax({
+					url:"view_thread_page",
+					data:"forum_id="+forum_id,
+					type:"post",
+					success:function(response){
+						$("#body").html(response);
+					}
+				});
+			}
 		}
 	});
 	return false;
@@ -138,18 +122,17 @@ function thread_msg(thread_id,forum_id){
 	return false;	
 }
 
-function getQueryParams(qs) {
-    qs = qs.split('+').join(' ');
-
-    var params = {},
-        tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
     }
-
-    return params;
+    return vars;
 }
 
 function testing(){

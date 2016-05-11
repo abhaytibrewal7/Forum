@@ -76,7 +76,10 @@
 								%>
 									<div class="row">																			
 									
-										<div class="col-md-2"><a href="javascript:threads(<% out.print(f.getId()); %>)" ><% out.print(f.getName()); %></a> </div>										
+										<div class="col-md-2">
+											<a href="view_threads.html?id=<% out.print(f.getId()); %>"><% out.print(f.getName()); %></a>
+											<!-- <a href="javascript:threads(<% out.print(f.getId()); %>)" ><% out.print(f.getName()); %></a> -->
+										 </div> 										
 										<div class="col-md-2"> <% out.print(f.getStart_date()); %></div>
 										<div class="col-md-2"> <% out.print(f.getLast_post()); %></div>
 										<div class="col-md-2"> <% out.print(f.getNo_of_messages()); %></div>

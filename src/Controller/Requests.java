@@ -54,11 +54,11 @@ public class Requests extends HttpServlet {
 						ArrayList<threads> thread = obj.threads(forum_id);
 						if(thread != null){
 							session.setAttribute("thread",thread);
-							//resp.getWriter().write("true");
-							String json = new Gson().toJson(thread);
+							resp.getWriter().write("true");
+							//String json = new Gson().toJson(thread);
 
-						    resp.getWriter().write(json);
-						    System.out.println(json);
+						    //resp.getWriter().write(json);
+						    //System.out.println(json);
 						}
 												
 						

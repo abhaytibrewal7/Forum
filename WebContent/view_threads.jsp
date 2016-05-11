@@ -92,27 +92,27 @@
 						threads t = (threads)thread.next();
 						
 					%>
-					<div class="row white">	
-						<div class="col-md-1">
-							<span class="glyphicon glyphicon-film" aria-hidden="true" style="font-size: 50px;"></span>
+					<div class='row white'>	
+						<div class='col-md-1'>
+							<span class='glyphicon glyphicon-film' aria-hidden='true' style='font-size: 50px;'></span>
 						</div>																		
-						<div class="col-md-5">
+						<div class='col-md-5'>
 							<% 	int user_id = t.getAuthor(); %>							
 							<% 	int thread_id = t.getId(); %>
-							<a href="javascript:thread_msg(<% out.print(thread_id); %>,<% out.print(forum_id); %>)"><% out.print(t.getName()); %></a><br/>							
+							<a href='javascript:thread_msg(<% out.print(thread_id); %>,<% out.print(forum_id); %>)'><% out.print(t.getName()); %></a><br/>							
 								<script>
 									getUser(<% out.print(user_id); %>,<% out.print(thread_id); %>);
 								</script>																					
-							<span style="color: #AA0000;" class="username-coloured" id="user_name<% out.print(thread_id); %>"></span> 
+							<span style='color: #AA0000;' class='username-coloured' id='user_name<% out.print(thread_id); %>'></span> 
 							
 						</div>												
-						<div class="col-md-2" style="text-align:left">
+						<div class='col-md-2' style='text-align:left'>
 							<% out.print(t.getNo_of_views()); %>						
 						</div>
-						<div class="col-md-2" style="text-align:left">
+						<div class='col-md-2' style='text-align:left'>
 							<% out.print(t.getNo_of_messages()); %>													
 						</div>
-						<div class="col-md-2" style="text-align:left">
+						<div class='col-md-2' style='text-align:left'>
 							<% out.print(t.getLast_post()); %>											
 						</div>
 						<br/>
@@ -126,9 +126,9 @@
 			</div>
 		</div>		
 	</div>
-	<footer class="footer">
-		<div class="container text-center">
-			<p style="margin-top: 20px;">Powered by <h4>Aunwesha Pvt Ltd</h4></p>
+	<footer class='footer'>
+		<div class='container text-center'>
+			<p style='margin-top: 20px;'>Powered by <h4>Aunwesha Pvt Ltd</h4></p>
 		</div>
 	</footer>
 </body>
