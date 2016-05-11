@@ -100,7 +100,7 @@ public class ViewThreads extends HttpServlet {
 					+ "</div>"
 					+ "<div class='col-md-5'>";								
 			
-			html2 = html2 + "<a href='javascript:thread_msg("+thread_id+","+forum_id+")'>"+t.getName()+"</a><br/>"
+			html2 = html2 + "<a href='view_thread_messages.html?thread_id="+thread_id+"&forum_id="+forum_id+"'>"+t.getName()+"</a><br/>"
 							+ "<script>"
 								+ "getUser("+user_id+","+thread_id+");"
 							+ "</script>"

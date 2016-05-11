@@ -123,7 +123,7 @@ public class Requests extends HttpServlet {
 						if(thread1 != null){
 							session.setAttribute("thread",thread1);
 							//resp.getWriter().write("true");
-							String json = new Gson().toJson(thread1);
+							//String json = new Gson().toJson(thread1);
 
 						    //resp.getWriter().write(json);
 						}											

@@ -115,7 +115,14 @@ function thread_msg(thread_id,forum_id){
 		data:"function=thread_msg&thread_id="+thread_id,
 		success:function(data){
 			if($.trim(data).indexOf("true") >=  0){
-				location.href = "view_thread_messages.jsp?thread_id="+thread_id+"&forum_id="+forum_id;
+				$.ajax({
+					url:"view_thread_msg_page",
+					type:"POST",
+					data:"thread_id="+thread_id+"&forum_id="+forum_id,
+					success:function(response){
+						$("#body").html(response);
+					}
+				});
 			}
 		}
 	});
