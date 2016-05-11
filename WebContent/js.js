@@ -134,7 +134,3 @@ function getUrlVars()
     }
     return vars;
 }
-
-function testing(){
-	$("#divId").html("Hello Abhay");
-}
