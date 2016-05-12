@@ -51,3 +51,14 @@ create table thread_messages(
 	foreign key(thread_id) references threads(id),
 	foreign key(forum_id) references forum_name(id)	
 );
+
+
+CREATE TABLE documents (
+  doc_id int(11) NOT NULL AUTO_INCREMENT,
+  fileName varchar(100) NOT NULL,
+  type varchar(20) NOT NULL,
+  content mediumblob NOT NULL,
+  thread_id int(11) NOT NULL,
+  PRIMARY KEY (doc_id),
+  FOREIGN KEY (thread_id) references threads(id)
+);
