@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
@@ -14,13 +16,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+
+import model.user;
 
 import com.oreilly.servlet.MultipartRequest;
 
 import database.databaseConnect;
 
 @WebServlet("/newFileUploadText")
-@MultipartConfig(maxFileSize = 16177215)
+@MultipartConfig(maxFileSize = 16177215)  //16MB
 public class newFileUploadText extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Connection con;
@@ -28,85 +34,69 @@ public class newFileUploadText extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		databaseConnect obj = databaseConnect.getInstance();
+		con = obj.getConnection();
 
 		try {
-			String rtempfile = File.createTempFile("temp", "1").getParent();
+			HttpSession session = request.getSession();
+			user u = (user) session.getAttribute("user");
+			int user_id = u.getId();
+			String forum_id = request.getParameter("forum_id");
+			String question = request.getParameter("question");
 
-			// get the file from the previous page form
-			// save the file in temporary directory of server
-			// specify the max size = 15MB
-			MultipartRequest multi = new MultipartRequest(request, rtempfile,
-					15 * 1024 * 1024);
+			String query = "Insert into threads(name,author,forum_id,no_of_messages,no_of_views,last_post) values (?,?,?,?,?,now())";
+			pst = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 
-			Enumeration files = multi.getFileNames();
-			String st = "insert into documents(fileName, type,content, thread_id) values (?,?,?,1)";
+			pst.setString(1, question);
+			pst.setInt(2, user_id);
+			pst.setInt(3, Integer.parseInt(forum_id));
+			pst.setInt(4, 0);
+			pst.setInt(5, 0);
 
-			// get the connection object from another class MyConnection's
-			// method getConnection();
-			// and create the prepareStatement
-			databaseConnect obj = databaseConnect.getInstance();
-			con = obj.getConnection();
-
-			pst = con.prepareStatement(st);
-
-			String name = "";
-			String fileExtesion = "";
-			File ff = null;
-			FileInputStream fin = null;
-
-			while (files.hasMoreElements()) {
-				name = (String) files.nextElement();
-				System.out.println("name : "+name);
-				ff = multi.getFile(name);
-				fileExtesion = ff.getName().substring(
-						ff.getName().lastIndexOf("."));
-
-				// check user has select the correct file or not
-				boolean fileAllowed = fileExtesion.equalsIgnoreCase(".txt")
-						|| fileExtesion.equalsIgnoreCase(".pdf")
-						|| fileExtesion.equalsIgnoreCase(".doc")
-						|| fileExtesion.equalsIgnoreCase(".docx")
-						|| fileExtesion.equalsIgnoreCase(".xls")
-						|| fileExtesion.equalsIgnoreCase(".xlsx");
-
-				if ((ff != null) && fileAllowed) {
-
-					try {
-						fin = new FileInputStream(ff);
-						pst.setString(1, ff.getName());
-						pst.setString(2, fileExtesion);
-						pst.setBinaryStream(3, (InputStream) fin,
-								(int) (ff.length()));
-						boolean sss = pst.execute();
-
-						System.out.print("uploaded successfully.."+ff.getName());
-					}
-
-					catch (Exception e) {
-						System.out.print("Failed due to " + e);
-					}
-
-					finally {
-						// next statement is must otherwise file will not be
-						// deleted from the temp as fin using f.
-						// its necessary to put outside otherwise at the time of
-						// exception file will not be closed.
-						fin.close();
-						ff.delete();
-					}
-				} else {
-					System.out.print("Please select the correct file...");
-				}// end of if and else
-			}// end of while
-
+			int row = pst.executeUpdate();
+			ResultSet keys = pst.getGeneratedKeys();
+			if (row > 0) {
+				System.out.println("Question was posted successfuly");
+			}
+			keys.next();
+			int key = keys.getInt(1);
+			
+			
+			/* FIle Uploading part */
+			
+			InputStream inputStream = null;
+			Part file = request.getPart("attachment");
+			if(file != null){
+				System.out.println(file.getName());
+	            System.out.println(file.getSize());
+	            System.out.println(file.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = file.getInputStream();
+			}
+			String attachQuery = "Insert into documents (fileName,type,content,thread_id) values(?,?,?,?)";
+			pst = con.prepareStatement(attachQuery);
+			
+			if(inputStream!=null){
+				pst.setString(1, file.getName());
+				pst.setString(2,file.getContentType());
+				pst.setBlob(3, inputStream);
+				pst.setInt(4, key);
+			}
+			
+			int rown = pst.executeUpdate();
+			if(rown>0){
+				System.out.println("File was successfully uploaded");
+			}
+			
 			pst.close();
 			con.close();
 			
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
