@@ -134,33 +134,7 @@ public class pojo {
 		
 		return thread;
 	}
-	
-	public boolean questionSubmit(int forum_id,String question,int user_id){
-				
-		boolean status = false;
-		try{
-			databaseConnect obj = databaseConnect.getInstance();
-			con=obj.getConnection();
 		
-			pst=con.prepareStatement("Insert into threads(name,author,forum_id,no_of_messages,no_of_views,last_post) values (?,?,?,?,?,now())");
-			pst.setString(1, question);
-			pst.setInt(2, user_id);
-			pst.setInt(3, forum_id);
-			pst.setInt(4,0);
-			pst.setInt(5,0);			
-			int temp = pst.executeUpdate();
-			if(temp > 0){
-				status =  true;
-			}else
-				status =  false;
-			
-			pst.close();
-			con.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return status;		
-	}
 	
 	public String getUser(int id){
 		

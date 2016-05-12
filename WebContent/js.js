@@ -61,23 +61,21 @@ function threads(forum_id){
 
 function postQuestion(forum_id){
 	
-	location.href = "post.jsp?forum_id="+forum_id;
+	location.href = "post.html?forum_id="+forum_id;
 }
 
-function questionSubmit(forum_id){
-	
-	var question = $('#question').val();
+function postPage(forum_id){
 	$.ajax({
-		url:"ControllerPojo",
-		type:"POST",
-		data:"function=questionSubmit&question="+question+"&forum_id="+forum_id,
+		url:"view_post_page",
+		type:"post",
+		data:"forum_id="+forum_id,
 		success:function(data){
-			if($.trim(data) == "true")
-				location.href  = "view_threads.jsp?forum_id="+forum_id;
-		}
+			$("#body").html(data);
+		}		
 	});
-	return false;	
+	return false;
 }
+
 
 function getUser(user_id,thread_id){
 	$.ajax({
