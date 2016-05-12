@@ -34,7 +34,8 @@ create table threads(
 	forum_id int,	
 	no_of_messages int,
 	no_of_views int,
-	last_post datetime,
+	attachment mediumblob,
+	last_post datetime,	
 	foreign key(author) references user(id),
 	foreign key(forum_id) references forum_name(id)	 
 );

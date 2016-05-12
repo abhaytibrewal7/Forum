@@ -90,10 +90,11 @@ public class fileUpload extends HttpServlet{
                 }
             }
             // sets the message in request scope
-            req.setAttribute("Message", message);
+            //req.setAttribute("Message", message);
              
             // forwards to the message page
-            getServletContext().getRequestDispatcher("/Message.jsp").forward(req, resp);
+        	resp.sendRedirect("view_threads.html?id="+forum_id);
+            //getServletContext().getRequestDispatcher("/view_threads.html?id="+forum_id).forward(req, resp);
         }
 	}
 }

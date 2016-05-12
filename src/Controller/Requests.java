@@ -68,21 +68,7 @@ public class Requests extends HttpServlet {
 						}
 						
 						
-						break;
-			case "questionSubmit":
-						user u =(user)session.getAttribute("user");
-						int user_id = u.getId();
-						int forum_id2 = Integer.valueOf(req.getParameter("forum_id"));
-						String question = req.getParameter("question");
-						boolean status = obj.questionSubmit(forum_id2,question,user_id);
-						if(status == true){
-							ArrayList<threads> thread2 = obj.threads(forum_id2);
-							if(thread2 != null){
-								session.setAttribute("thread",thread2);
-								resp.getWriter().write("true");
-							}
-						}
-						break;
+						break;			
 			case "getUser":
 						int id = Integer.valueOf(req.getParameter("user_id"));
 						String name = obj.getUser(id);

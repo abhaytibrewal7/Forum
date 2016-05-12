@@ -76,20 +76,6 @@ function postPage(forum_id){
 	return false;
 }
 
-function questionSubmit(forum_id){
-	
-	var question = $('#question').val();
-	$.ajax({
-		url:"ControllerPojo",
-		type:"POST",
-		data:"function=questionSubmit&question="+question+"&forum_id="+forum_id,
-		success:function(data){
-			if($.trim(data) == "true")
-				location.href  = "view_threads.jsp?forum_id="+forum_id;
-		}
-	});
-	return false;	
-}
 
 function getUser(user_id,thread_id){
 	$.ajax({
