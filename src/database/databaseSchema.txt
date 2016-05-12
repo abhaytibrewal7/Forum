@@ -1,3 +1,123 @@
+<<<<<<< HEAD
+use forum;
+
+create table user(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),
+	username varchar(100),
+	password varchar(100),
+	type varchar(50)
+);
+
+insert into user(name,username,password,type) values ('Abhay','abhay','abhay','student');
+
+create table forum_name(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),	
+	start_date datetime,
+	last_post datetime,
+	no_of_messages int,
+	no_of_views int,
+	no_of_threads int,
+	no_of_posts int,	
+);
+
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts) values ('Testing',now(),now(),0,0,0,0);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts) values ('Testing2',now(),now(),0,0,0,0);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts,sub_topic_id) values ('Testing3_1',now(),now(),0,0,0,0,1);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts,sub_topic_id) values ('Testing4_1',now(),now(),0,0,0,0,1);
+
+
+create table threads(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),
+	author int,
+	forum_id int,	
+	no_of_messages int,
+	no_of_views int,
+	last_post datetime,
+	foreign key(author) references user(id),
+	foreign key(forum_id) references forum_name(id)	 
+);
+
+
+create table thread_messages(
+	id int primary key AUTO_INCREMENT,
+	message_content MediumBlob,
+	posted_by int,
+	posting_date datetime,
+	thread_id int,
+	forum_id int,
+	foreign key(posted_by) references user(id),
+	foreign key(thread_id) references threads(id),
+	foreign key(forum_id) references forum_name(id)	
+);
+
+
+CREATE TABLE documents (
+  doc_id int(11) NOT NULL AUTO_INCREMENT,
+  fileName varchar(100) NOT NULL,
+  type varchar(20) NOT NULL,
+  content mediumblob NOT NULL,
+  thread_id int(11) NOT NULL,
+  PRIMARY KEY (doc_id),
+  FOREIGN KEY (thread_id) references threads(id)
+);
+||||||| merged common ancestors
+use forum;
+
+create table user(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),
+	username varchar(100),
+	password varchar(100),
+	type varchar(50)
+);
+
+insert into user(name,username,password,type) values ('Abhay','abhay','abhay','student');
+
+create table forum_name(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),	
+	start_date datetime,
+	last_post datetime,
+	no_of_messages int,
+	no_of_views int,
+	no_of_threads int,
+	no_of_posts int,	
+);
+
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts) values ('Testing',now(),now(),0,0,0,0);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts) values ('Testing2',now(),now(),0,0,0,0);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts,sub_topic_id) values ('Testing3_1',now(),now(),0,0,0,0,1);
+insert into forum_name(name,start_date,last_post,no_of_messages,no_of_views,no_of_threads,no_of_posts,sub_topic_id) values ('Testing4_1',now(),now(),0,0,0,0,1);
+
+
+create table threads(
+	id int primary key AUTO_INCREMENT,
+	name varchar(100),
+	author int,
+	forum_id int,	
+	no_of_messages int,
+	no_of_views int,
+	last_post datetime,
+	foreign key(author) references user(id),
+	foreign key(forum_id) references forum_name(id)	 
+);
+
+
+create table thread_messages(
+	id int primary key AUTO_INCREMENT,
+	message_content MediumBlob,
+	posted_by int,
+	posting_date datetime,
+	thread_id int,
+	forum_id int,
+	foreign key(posted_by) references user(id),
+	foreign key(thread_id) references threads(id),
+	foreign key(forum_id) references forum_name(id)	
+);
+=======
 use forum;
 
 create table user(
@@ -52,3 +172,4 @@ create table thread_messages(
 	foreign key(thread_id) references threads(id),
 	foreign key(forum_id) references forum_name(id)	
 );
+>>>>>>> e1d6d8ff19b0e3bd601cab8599763d90681638bd

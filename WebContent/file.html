@@ -1,0 +1,25 @@
+<form enctype="multipart/form-data" action="newFileUploadText" method="post" onsubmit="return verify()">      
+<table border='1'>
+<tr>
+   <td>   
+      Remember you can upload only MS-word, MS-Excel, txt and PDF files.max size = 15mb       
+   </td>
+</tr>
+<tr>
+   <td>
+      <input type="file" name="filename" id="filename"
+      accept=".txt,
+           application/pdf,
+           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+           application/vnd.ms-excel,
+           application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+           application/msword"/>                                                            
+   </td>
+</tr>
+<tr>
+   <td>
+      <input type="submit" value="Save File" />
+   </td>
+</tr>
+</table>
+</form>
