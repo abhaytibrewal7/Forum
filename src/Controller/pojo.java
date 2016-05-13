@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import database.databaseConnect;
+import model.attachment;
 import model.forum_name;
 import model.threads;
 import model.user;
@@ -109,6 +110,7 @@ public class pojo {
 				
 				no_of_threads++;
 				no_of_messages += rs.getInt("no_of_messages");
+						
 				
 			}
 			pst = con.prepareStatement("Select no_of_views from forum_name where id = ?");
@@ -125,7 +127,7 @@ public class pojo {
 			pst.setInt(4, no_of_threads);
 			pst.setInt(5, forum_id);
 			pst.executeUpdate();
-			
+							
 			pst.close();
 			con.close();
 		}catch(Exception e){
@@ -133,6 +135,32 @@ public class pojo {
 		}
 		
 		return thread;
+	}
+	
+	public attachment getAttachmentDocId(int thread_id){
+		
+		attachment at = new attachment();
+		try{
+			databaseConnect obj = databaseConnect.getInstance();
+			con=obj.getConnection();
+		
+			pst=con.prepareStatement("Select doc_id, thread_id, type, fileName from documents where thread_id = ?");
+			pst.setInt(1,thread_id);
+			rs=pst.executeQuery();
+			
+			while(rs.next()){
+				at.setDoc_id(rs.getInt("doc_id"));
+				at.setFilename(rs.getString("fileName"));
+				at.setThread_id(rs.getInt("thread_id"));
+				at.setType(rs.getString("type"));
+			}
+			pst.close();
+			con.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return at;	
 	}
 		
 	

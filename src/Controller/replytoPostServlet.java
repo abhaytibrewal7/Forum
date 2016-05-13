@@ -1,14 +1,9 @@
 package Controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -20,22 +15,21 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import model.user;
-
-import com.oreilly.servlet.MultipartRequest;
-
 import database.databaseConnect;
 
-@WebServlet("/newFileUploadText")
 @MultipartConfig(maxFileSize = 16177215)  //16MB
-public class newFileUploadText extends HttpServlet {
+@WebServlet("/replytoPostServlet")
+public class replytoPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	Connection con;
-	PreparedStatement pst;
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+       
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("testing");
+		String forum_id = request.getParameter("forum_id_serv");
+		String thread_id = request.getParameter("thread_id_serv");
+		String reply = request.getParameter("replyQuestion");
 		
-		databaseConnect obj = databaseConnect.getInstance();
+		
+		/*databaseConnect obj = databaseConnect.getInstance();
 		con = obj.getConnection();
 
 		try {
@@ -65,7 +59,7 @@ public class newFileUploadText extends HttpServlet {
 			
 			/* FIle Uploading part */
 			
-			InputStream inputStream = null;
+			/*InputStream inputStream = null;
 			Part file = request.getPart("attachment");
 			if(file != null){
 				System.out.println(file.getName());
@@ -90,15 +84,13 @@ public class newFileUploadText extends HttpServlet {
 				System.out.println("File was successfully uploaded");
 			}
 			
-			response.sendRedirect("view_threads.html?id="+forum_id);
-			
 			pst.close();
 			con.close();
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
