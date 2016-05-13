@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.attachment;
 import model.forum_name;
 import model.thread_messages;
 import model.threads;
@@ -55,19 +56,22 @@ public class Requests extends HttpServlet {
 						if(thread != null){
 							session.setAttribute("thread",thread);
 							resp.getWriter().write("true");
-							//String json = new Gson().toJson(thread);
-
-						    //resp.getWriter().write(json);
-						    //System.out.println(json);
 						}
 												
-						
+						ListIterator<threads> for_attachment = thread.listIterator();
+						ArrayList<attachment> att = new ArrayList<attachment>();
+						while(for_attachment.hasNext()){							
+							int t_id = for_attachment.next().getId();							
+							attachment at = (attachment)obj.getAttachmentDocId(t_id);							
+							att.add(at);
+							
+						}
+						session.setAttribute("attachment", att);
 						ArrayList<forum_name> forum1 = obj.forum();						
 						if(forum1 != null){							
 							session.setAttribute("forum", forum1);									
-						}
-						
-						
+						}										
+											
 						break;			
 			case "getUser":
 						int id = Integer.valueOf(req.getParameter("user_id"));

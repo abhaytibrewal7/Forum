@@ -50,7 +50,7 @@ public class Post extends HttpServlet {
 						"</div>"+
 						"<div class='row'><p>"+
 							"<div class='col-md-7 col-md-offset-1'>"+
-								"<form method='post' action='uploadServlet' enctype='multipart/form-data'>"+
+								"<form enctype='multipart/form-data' action='newFileUploadText' method='post'>"+
 									"<input type='hidden' name='forum_id' value='"+forum_id+"'>"+
 									"<div class='form-group row'>"+
 										"<label for='inputEmail3' class='col-sm-2 form-control-label'>Forum</label>"+
@@ -68,12 +68,12 @@ public class Post extends HttpServlet {
 									"<div class='form-group row'>"+
 										"<label for='attachment' class='col-sm-2 form-control-label'>Choose Attachment:</label>"+
 										"<div class='col-sm-10'>"+
-											"<input type='file' name='attachment' size='50' id='attachment' />"+
+											"<input type='file' name='attachment' id='filename' />"+
 											"<br>"+
 										"</div>"+
 									"</div>"+
 									"<div class='form-group row pull-right'>"+
-										"<input type='submit' class='btn green' value='Submit'>&nbsp;&nbsp;&nbsp;&nbsp;"+
+										"<input type='submit' class='btn green' value='Save'>&nbsp;&nbsp;&nbsp;&nbsp;"+
 										"<a href='view_threads.html?id="+forum_id+"' class='btn green'>"+
 											"<span class='glyphicon glyphicon-arrow-left' aria-hidder='true'></span>Cancel"+
 										"</a>"+

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.attachment;
 import model.forum_name;
 import model.thread_messages;
 import model.threads;
@@ -30,6 +31,7 @@ public class ViewThreadMsgs extends HttpServlet {
 		ListIterator<forum_name> forum_li = null;
 		ListIterator<threads> thread = null;
 		ListIterator<thread_messages> thread_messages = null;
+		ListIterator<attachment> attachments = null;
 		String forum_name = "", html = "", html2 = "", thread_name = "";
 		if(session.getAttribute("forum") != null){
 			ArrayList<forum_name> forum = (ArrayList<forum_name>)session.getAttribute("forum");
@@ -42,6 +44,11 @@ public class ViewThreadMsgs extends HttpServlet {
 		if(session.getAttribute("thread_messages") != null){
 			ArrayList<thread_messages> t_m = (ArrayList<thread_messages>)session.getAttribute("thread_messages");
 			thread_messages = t_m.listIterator();
+		}
+		
+		if(session.getAttribute("attachment") != null){
+			ArrayList<attachment> att = (ArrayList<attachment>)session.getAttribute("attachment");
+			attachments = att.listIterator();					
 		}
 		if(session.getAttribute("forum") != null){							
 			while(forum_li.hasNext()){
@@ -81,16 +88,52 @@ public class ViewThreadMsgs extends HttpServlet {
 	
 										int notOfMsgs = 0;
 										Timestamp noOfPosts = null;
-										while(thread.hasNext()) {
+
+										String fileName = "";
+										String type = "";
+										int doc_id = 0;
+										String ext="";
+										while(thread.hasNext()) {											
+												
+												while(attachments.hasNext()){
+													attachment at_at = attachments.next();
+													int at_thread_id = at_at.getThread_id();
+													if(at_thread_id == thread_id){
+														fileName = at_at.getFilename();
+														type = at_at.getType();
+										                
+														if(type.equals("text/plain")){
+										                	ext = ".txt";
+										                }else if(type.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")){
+										                	ext = ".docx";
+										                }else if(type.equals("application/vnd.ms-excel")){
+										                	ext = ".xls";
+										                }else if(type.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")){
+										                	ext = ".ppt";
+										                }else if(type.equals("application/pdf")){
+										                	ext = ".pdf";
+										                }
+										                
+														doc_id = at_at.getDoc_id();
+														break;
+													}
+												}
 							
 												threads t = (threads)thread.next();
 												if(t.getId() == thread_id){
+																									
 													thread_name = t.getName();
 													int user_id = t.getAuthor();
 													notOfMsgs = t.getNo_of_messages();
 													noOfPosts = t.getLast_post();
+													String document="";
+													if(fileName!=""){
+														document = "<a href='newFIleDownloadServlet?id="+doc_id+"'>"+
+													"<span class='glyphicon glyphicon-file' aria-hidden='true'></span>&nbsp;&nbsp;"+
+																fileName+""+doc_id+""+ext+"</a><br>";
+													}
 	
-													html2 += thread_name+"<br/>"+
+													html2 += thread_name+"<br/><br>"+document+
 															"<script>"+
 																"getUser("+user_id+","+thread_id+");"+
 															"</script>"+
@@ -171,19 +214,19 @@ public class ViewThreadMsgs extends HttpServlet {
 								"<div class='col-md-9 light-gray'>"+
 									"<div class='form-group'>"+
 										"<label for='replyQuestion'>Reply:</label>"+
-											"<textarea class='form-control' rows='5' placeholder='Reply to this Question!' id='replyQuestion'></textarea>"+
+											"<textarea name='replyQuestion' class='form-control' rows='5' placeholder='Reply to this Question!' id='replyQuestion'></textarea>"+
 									"</div>"+
 								"</div>"+					
 							"<br/>"+
 							"</div>"+
 							"<div class='row top-buffer'>"+
-								"<div class='col-md-4'>"+
+								"<div class='col-md-4'>"+									
 									"<button type='button' class='btn green' onclick='replySubmit("+thread_id+","+forum_id+")'>Submit</button>&nbsp;&nbsp;&nbsp;"+
 									"<a href='view_threads.html?id="+forum_id+"' class='btn green'>"+
-										"<span class='glyphicon glyphicon-arrow-left' aria-hidder='true'></span>Cancel"+
+										"Cancel"+
 									"</a>"+
 								"</div>"+
-						"</div>"+									
+						"</div>"+
 					"</div>"+
 				"</div>"+	
 		"</div>"+
